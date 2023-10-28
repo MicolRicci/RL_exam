@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+<!--arguments turtlebot-->
+ <arg name="x_tbot" default="0.0"/>
+ <arg name="y_tbot" default="0.0"/>
+ <arg name="z_tbot" default="0.0"/>
+ 
+ <!--arguments kuka iiwa-->
+ <arg name="x_iiwa" default="8"/>
+ <arg name="y_iiwa" default="-7"/>
+ <arg name="z_iiwa" default="0.1"/>
+ <arg name="hardware_interface" default="hardware_interface/PositionJointInterface"/>
+
+  <env name="GAZEBO_MODEL_PATH" value="$(find environment_pkg)/models:$(optenv GAZEBO_MODEL_PATH)" />
+  
+   <!--launching the construct-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find environment_pkg)/worlds/multi_robot_environment.world"/> 
+        <arg name="paused" value="true"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+    
+  <!--launching turtlebot-->
+    <include file="$(find turtlebot3_description)/launch/gazebo_turtlebot3.launch">
+        <arg name="x" value="$(arg x_tbot)" />
+        <arg name="y" value="$(arg y_tbot)" />
+        <arg name="z" value="$(arg z_tbot)" />
+    </include>   
+    
+   <!--launching kuka iiwa-->
+     <include file="$(find lbr_iiwa_description)/launch/gazebo_ctrl.launch">
+	<arg name="hardware_interface" value="$(arg hardware_interface)" />
+	<arg name="x" value="$(arg x_iiwa)" />
+        <arg name="y" value="$(arg y_iiwa)" />
+        <arg name="z" value="$(arg z_iiwa)" />
+    </include> 
+       
+   <!--launching camera wall-->
+    <include file="$(find camera_kuka)/launch/camera.launch">
+    </include>
+      
+</launch>

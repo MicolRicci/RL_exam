@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+
+    <include file="$(find aruco_ros)/launch/aruco_wall_camera.launch">
+    </include>
+     
+    <include file="$(find aruco_ros)/launch/aruco.launch">
+    </include>
+    
+    
+    
+   <include file="$(find high_level_controller)/launch/gmapping.launch">
+    </include>
+    
+    <include file="$(find high_level_controller)/launch/move_base.launch">
+    </include>
+   
+</launch>

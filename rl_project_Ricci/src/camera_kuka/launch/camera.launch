@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+  <!-- Spawn the example robot -->
+  <param name="wall_camera_description" command="$(find xacro)/xacro '$(find camera_kuka)/urdf/camera.xacro'" />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -model camera -param wall_camera_description" />
+  
+
+</launch>
+
