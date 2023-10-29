@@ -29,6 +29,8 @@ It remains in a wait state until the turtlebot arrives and only at that point be
 
 To run up the simulations,a version of ROS Noetic is needed. Other packages like the Gmapping package, the SLAM package, the ARUCO package and the MOVE-BASE are mandatory to make the simulation working 
 
+The rl_project_Ricci folder contains the source folder and a video demonstration of the project.
+
 #### COMMAND
 To start the simulation it is necessary to execute four steps:
 
