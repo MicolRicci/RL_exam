@@ -1,22 +1,35 @@
 # RL_exam  Micol Ricci P38/000109 
 Materal for the Robotics Lab Exam
 
+##  PROJECT OVERVIEW
 
-#  PROJECT GOAL
-The goal is to simulate a typical application of Industry 4.0 .A TurtleBot will autonomously search for a specific tool (in this case a marker) within an environment. Once it locates the tool, the mobile robot will deliver it to a KUKA IIWA manipulator, which will simulate the process of grasping the tool. There are three different tools located in three separate rooms within the environment, while the manipulator is situated in a fourth room.
+The purpose of the project is to simulate a typical industry4.0 application. Within an environment there are two robots, a mobile one (a turlebot3) and a fixed manipulator (Kuka iiwa7). the Turtlebot must be able to autonomously navigate the environment and go in search of a specific tool (represented by a marker). Once found, it takes it to the manipulator, which will simulate a grasping process. 
 
-# IMPLEMENTATION IDEA
 
-The TurtleBot initiates its mission by receiving input from the user specifying the marker code of the tool it needs to find. It then proceeds to navigate the environment, following a sequence of waypoints, each corresponding to a different room, with the central area as the starting point.
+### IMPLEMENTATION IDEA
 
-Upon reaching each waypoint, the TurtleBot begins to rotate in place, scanning the room for the designated marker. Once it identifies a marker, the robot pauses and verifies if it matches the desired marker code. If it's a match, the TurtleBot simulates the process of picking up the tool by remaining stationary for one second. Afterward, it heads for the waypoint within the manipulator room, signaling the KUKA IIWA via a ROS topic that the tool has been delivered and the grasping process can commence.
+The turtlebot begins its mission by receiving as keyboard input an identifier corresponding to the desired tool marker. 
 
-Upon startup, the KUKA IIWA manipulator proceeds to locate the delivery point, represented by a marker on the ground. This location is determined using a fixed camera positioned on top of the manipulator.
+At this point it begins navigation in the environment by following a set of waypoints representing the center of one of three rooms containing the objects.
 
-Then the KUKA IIWA enters a waiting state, monitoring a specific ROS topic for a signal from the TurtleBot. The manipulator subscribes to this topic, anticipating the result of the TurtleBot's search mission. If the TurtleBot successfully finds and delivers the tool, the manipulator takes action by positioning its end-effector at the center of the marker.
+Once it reaches a waypoint the turtlebot begins to rotate on itself in search of the marker to be scanned and verified:
 
-# SIMULATION EXECUTION
+if the marker is not the desired one it proceeds to the next waypont
 
+and if there is a match instead it simulates grabbing the object by remaining stationary for 1 second and then heads toward the manipulator, whose position is known.
+
+When it arrives at its destination, it starts the process of the manipulator, which had previously located the arrival point of the object represented by a marker on the ground.
+
+It remains in a wait state until the turtlebot arrives and only at that point begins the process of taking the object by going to place the end effector in the center of the marker.
+
+
+## SIMULATION EXECUTION
+
+####  PREREQUISITES:
+
+To run up the simulations,a version of ROS Noetic is needed. Other packages like the Gmapping package, the SLAM package, the ARUCO package and the MOVE-BASE are mandatory to make the simulation working 
+
+#### COMMAND
 To start the simulation it is necessary to execute four steps:
 
 - lunch _Gazebo_ with the custom world
@@ -25,17 +38,24 @@ To start the simulation it is necessary to execute four steps:
 - start the kuka iiwa node
 
 with the four following commands in four different terminal
+
 ```
 roslaunch environment_pkg environment.launch
 ```
+
+
 ```
 roslaunch high_level_control configuration.lunch
 ```
+
+
 ```
 rosrun high_level_control turtlebot_controller_node
 ```
+
+
+
 ```
 rosrun high_level_control kuka_controller_node
 ```
-
 
